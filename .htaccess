@@ -1,0 +1,63 @@
+php_flag display_startup_errors off
+php_flag display_errors off
+php_flag html_errors off
+php_flag log_errors on
+php_flag ignore_repeated_errors off
+php_flag ignore_repeated_source off
+php_flag report_memleaks on
+php_flag track_errors on
+php_value docref_root 0
+php_value docref_ext 0
+php_value error_log PHP_errors.log
+php_value error_reporting 2047
+php_value log_errors_max_len 0
+
+<Files PHP_errors.log>
+ Order allow,deny
+ Deny from all
+ Satisfy All
+</Files>
+
+RewriteEngine On
+      RewriteRule ^id([0-9]+)$ user.php?id=$1
+      RewriteRule ^id([0-9]+)/$ user.php?id=$1
+      RewriteRule ^post([0-9]+)$ post.php?id=$1
+      RewriteRule ^post([0-9]+)/$ post.php?id=$1
+      RewriteRule ^blog_([0-9]+)$ blog.php?id=$1
+      RewriteRule ^blog_([0-9]+)/$ blog.php?id=$1
+RewriteRule ^club([0-9]+)$ club.php?id=$1
+RewriteRule ^club([0-9]+)/$ club.php?id=$1
+RewriteRule ^gpost([0-9]+)$ gpost.php?id=$1
+RewriteRule ^gpost([0-9]+)/$ gpost.php?id=$1
+RewriteRule ^post-([0-9]+)$ gpost.php?id=$1
+RewriteRule ^post-([0-9]+)/$ gpost.php?id=$1
+RewriteRule ^friends([0-9]+)$ friends.php?id=$1
+RewriteRule ^friends([0-9]+)/$ friends.php?id=$1
+RewriteRule ^videos([0-9]+)$ videos.php?id=$1
+RewriteRule ^videos([0-9]+)/$ videos.php?id=$1
+RewriteRule ^video([0-9]+)$ video.php?id=$1
+RewriteRule ^video([0-9]+)/$ video.php?id=$1
+RewriteRule ^groups([0-9]+)$ groups.php?id=$1
+RewriteRule ^groups([0-9]+)/$ groups.php?id=$1
+RewriteRule ^album([0-9]+)$ album.php?id=$1
+RewriteRule ^album([0-9]+)/$ album.php?id=$1
+RewriteRule ^albums([0-9]+)$ albums.php?id=$1
+RewriteRule ^albums([0-9]+)/$ albums.php?id=$1
+RewriteRule ^album-([0-9]+)$ galbum.php?id=$1
+RewriteRule ^album-([0-9]+)/$ galbum.php?id=$1
+RewriteRule ^albums-([0-9]+)$ galbums.php?id=$1
+RewriteRule ^albums-([0-9]+)/$ galbums.php?id=$1
+RewriteRule ^wall([0-9]+)$ wall.php?id=$1
+RewriteRule ^wall([0-9]+)/$ wall.php?id=$1
+RewriteRule ^wall-([0-9]+)$ gwall.php?id=$1
+RewriteRule ^wall-([0-9]+)/$ gwall.php?id=$1
+RewriteRule ^note([0-9]+)$ note.php?id=$1
+RewriteRule ^note([0-9]+)/$ note.php?id=$1
+RewriteRule ^notes([0-9]+)$ notes.php?id=$1
+RewriteRule ^notes([0-9]+)/$ notes.php?id=$1
+
+
+<FilesMatch ".(htaccess|htpasswd|ini|phps|fla|psd|log|sh)$">
+ Order Allow,Deny
+ Deny from all
+ </FilesMatch>

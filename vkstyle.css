@@ -1,0 +1,47 @@
+#head-wrapper {
+	background: url('img/xhead2.gif');
+}
+
+#head-button {
+	background-image: url('img/header_divider.gif'); 
+}
+
+#content-wall-title {
+	background: #DAE1E7;
+	border-top: #B8BDD0 solid 1px;
+	color: #446493;
+}
+
+#contect-wall-send {
+	background: #F5F5F5;
+}
+
+#left-menu a {
+	color: #446493;
+}
+
+#left-menu a:hover {
+	background: #DAE1E7;
+	border-top: #B8BDD0 solid 1px;
+}
+
+#content-wall-post #content-wall-post-authorofpost {
+	background-color: #F7F7F7;
+	border-top: #97ADBD solid 1px;
+	border-bottom: #E0E0E2 solid 1px;	
+}
+
+#button {/*
+	border-top-color: #789abf;
+	border-bottom-color: #5980a9;
+	border-left-color: #5980a9;
+	border-right-color: #5980a9;
+	text-shadow: 0 1px 0 #45688E;*/
+	background: #336393;
+	border: #336393;
+}
+
+#button:active {
+	background: #154575;
+	border: #154575;
+}
