@@ -1,6 +1,4 @@
 <?php
-//echo '<meta charset="utf-8"><center>Сайт временно недоступен.</center>';
-//exit;
 $pz0 = "PASSWORD";
 $logz = "USERNAME";
 $reqz = "mysql:host=HOST;dbname=DATABASE_NAME;charset=utf8";

@@ -85,7 +85,6 @@ while ($meleftc1 = $qsme1->fetch()) {
       //echo '<img src="img/camera_200.png" width="120" height="120">';
     }
  ?>
-   <!-- <center>Это Вы</center> -->
 
     </div>
   	<?php
@@ -98,47 +97,6 @@ while ($meleftc1 = $qsme1->fetch()) {
    </form>
   <? } ?>
   <hr>
-  <? /*
-$qleftava = $dbh1->prepare("SELECT * FROM users WHERE id='".$_SESSION['id']."'");
-$qleftava->execute(); 
-$leftava = $qleftava->fetch();
-if ($_SESSION['loginin'] == '1' AND $leftava['advice_settings'] == '1') {
-echo '<img src="https://i.imgur.com/sTKs2DX.png" width="120">';
- echo ' 
-  <br>
- <br>
-<hr>
-<br>
-<img src="https://flagma.ua/photo/kvartirne-i-ofisne-pereezd-hruzchiki-vvoz-5036938_big.jpg" width="125" >
- <br>
- <br>
-<hr>
-<br>
-<br>
-<img src="https://i.imgur.com/TifTFLQ.png" width="125" >
- <br>
- <br>
-<hr>
-<br>
-<br>
-<img src="https://i.imgur.com/Nywxh0u.png" width="125" >
- <br>
- <br>
-<hr>
-<br>
-<br>
-<img src="https://i.imgur.com/QC3gpQ1.png" width="125" >
- <br>
- <br>
- <hr>
-<br>
-<br>
-<img src="https://i.imgur.com/M5bfICK.png" width="125" >
- <br>
- <br>
-';
-}*/
-?>
   <h4>Новости</h4>
   <?php 
 $qleftblog = $dbh1->prepare("SELECT * FROM blog ORDER BY id DESC LIMIT 1");
@@ -146,9 +104,5 @@ $qleftblog->execute();
 $leftblog = $qleftblog->fetch();
 echo '<text>'.$leftblog['name'].'</text><br><br><text>'.$leftblog['k_about'].'</text><a href="blog_'.$leftblog['id'].'">Подробнее...</a>';
   ?>
-   <!-- <div id="adddd"></div> -->
   </div>
-  <? /*if($leftava['advice_settings'] == '1'){ ?>
-<center><img src="https://i.imgur.com/HnPR0rf.png" width="500"></center>
-  <? }else{ echo '';}*/ ?>
   <div id="content-main">

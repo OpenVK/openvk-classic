@@ -9,7 +9,7 @@
 	<script type="text/javascript">
 		function messagesWindow() {
 			$.window({
-				icon: "http://openvk.gfx3336007.com/img/favicon.png",
+				icon: "img/favicon.png",
 				title: "Сообщения",
 				content: "<text>Привет! Меня ещё не зафункционировали, но скоро появлюсь на свет!</text>"//,
 				//footerContent: "<div style='color:gray;'>я нижняя строка</div>"
