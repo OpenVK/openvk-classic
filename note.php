@@ -7,17 +7,15 @@ include('exec/check_user.php');
  $q1 = $dbh1->prepare($q); // отправляем запрос серверу
  $q1 -> execute(); 
  $notes = $q1->fetch(); // ответ в переменную 
-if ($video['about'] == null) {
-$about = '<p> Описание отсутствует </p>';
-}else if ($video['about'] != null){ 
-$about =  $video['about'];
-}
 $aid = $_SESSION['id'];
 $qs = $dbh1->prepare('SELECT * FROM users WHERE id='.$notes['aid'].''); // выбираем нашего 
 $qs->execute();
 $mynote = $qs->fetch();
+if (empty($notes['text'])) {
+  header("Location: blank.php?id=7");
+}
 if ($mynote['avatar'] != "") {
-	$avatar = "avatarc.php?image=".$mynote['avatar'];
+	$avatar = $mynote['avatar_50'];
 }else{
 	$avatar = "img/camera_200.png";
 }

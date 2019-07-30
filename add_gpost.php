@@ -30,28 +30,24 @@ if($_SESSION['loginin'] == '1'){
 		}else{
 			$bygroup = "1";
 		}
+
+		if ($ch['closed'] == '1') {
+			$qcheck = $dbh1->prepare("SELECT * FROM clubsub WHERE id1 = :id AND id2 = :clubid");
+			$qcheck->bindValue(':id', $_SESSION['id']);
+			$qcheck->bindValue(':clubid', $_SESSION['clubwall']);
+			$qcheck->execute();
+			$check = $qcheck->fetch();
+			if (empty($check['id'])) {
+				exit('you not a member of this group');
+			}
+		}
 	
 	}
 	$_POST['text'] = htmlentities($_POST['text'],ENT_QUOTES);
 	$_POST['text'] = str_replace(array("\r\n", "\r", "\n"), '
 <br>', $_POST['text']);
 	$_POST['text'] = preg_replace("~(http|https|ftp|ftps)://(.*?)(\s|\n|[,.?!](\s|\n)|$)~", '<a href="$1://$2">$1://$2</a>$3', $_POST['text']);
-    //тестирование плюшек
-    if($_SESSION['groupu'] == '1'){
-    	//цвета
-    	$_POST['text'] = str_replace('&amp;cGreen', '<span style="color:green">', $_POST['text']);
-    	$_POST['text'] = str_replace('&amp;cRed', '<span style="color:red">', $_POST['text']);
-    	$_POST['text'] = str_replace('&amp;cBlue', '<span style="color:blue">', $_POST['text']);
-    	$_POST['text'] = str_replace('&amp;cViolet', '<span style="color:violet">', $_POST['text']);
-    	$_POST['text'] = str_replace('&amp;cBrown', '<span style="color:brown">', $_POST['text']);
-    	//закрывалка
-    	$_POST['text'] = str_replace('&amp;cClose', '</span>', $_POST['text']);
-    	//фаст-фразочки
-    	$_POST['text'] = str_replace('&amp;hi', 'Приветствую!', $_POST['text']);
-    	$_POST['text'] = str_replace('&amp;oa', 'Мы добавили в OpenVK некоторые функции, а так-же исправили баги.', $_POST['text']);
-    	$_POST['text'] = str_replace('&amp;ia', 'Так-же Мы на данный момент планируем сделать ещё несколько функций.', $_POST['text']);
-    	$_POST['text'] = str_replace('&amp;bi', 'До скорых встреч!', $_POST['text']);
-    }
+    
 	include('exec/dbconnect.php');
 	$path = 'content/img-gpost/';
 	if (!@copy($_FILES['upimg']['tmp_name'], $path . $_FILES['upimg']['name'])){

@@ -49,26 +49,79 @@ include('exec/leftmenu.php');
       echo '<img src="img/verify_blue.png" width="12" height="12" style="margin-left:4px;margin-right:4px;margin-bottom:-2px;" onmouseenter="openVerify();" onmouseleave="openVerify();"><div id="verify" style="display:none;margin:5px 0;">Верифицированная страница тестера OpenVK</div>';
     } ?>
     <? if ($_SESSION['id'] == $id){?><span><b>(это Вы)</b></span><? } 
-    if($user['ban'] != '1'){?>
+    if($user['ban'] != '1'){
+	if($user['id'] != '100'){	
+		?>
     <text style="font-size: 8pt; color: #aaa; float: right;"><?php if(time()-2629743 <= $user['lastonline']){ if(time()-300 <= $user['lastonline']){ echo "<b>Онлайн</b>";}else{ if ($user['gender'] == '1') {
         echo "был в сети ";
       }else if ($user['gender'] == '2'){ 
         echo "была в сети ";
       }else if ($user['gender'] == '0'){
           echo "было в сети ";
-      } echo zmdate($user['lastonline']);}}}?></text></div>
-  
+	} echo zmdate($user['lastonline']);}}}?></text><?}?></div>
+<?php
+if($user['id'] == $_SESSION['id'] AND $user['advice_settings'] != 5){
+	  echo '<div style="
+    background: #eceff3;
+    margin-bottom: 10px;
+    padding: 10px;
+    line-height: 1.5;
+    border: 1px solid #cacede;
+">
+<b>Добро Пожаловать</b> в <b>OpenVK.</b><br>
+Вы только что прошли регистрацию. <br>
+Заполните основную информацию о себе чтобы сделать свою страницу узнаваемой.
+    <br>
+    <div style="
+    width: 100%;
+    text-align: right;
+"><a href="cluvd.php?id='.$_SESSION['id'].'" style="
+    cursor: pointer;
+">закрыть</a></div>
+</div>';
+}
+?>
   <div id="content-left">
    <div id="content-avatar">
     <? 
     if ($user['avatar'] != null AND $user['ban'] == '0') {
-      echo '<a href="watchi.php?image='.$user['avatar'].'"><img src="avatar.php?image='.$user['avatar'].'"></a><br><br>';
+      echo '<img src="'.$user['avatar_200'].'" width="200px"><br>';
+	if ($user['id'] != 100){
+		echo '<br>';
+	}
     }else{
-      echo '<img src="img/camera_200.png"><br><br>';
+	if($user['id'] == $_SESSION['id']){
+      echo '<form method="post" enctype="multipart/form-data" action="add_avatar.php"><div style="
+    position: absolute;
+    font-size: 12px;
+    margin: 7px;
+    margin-top: 116px;
+" align="center"><label for="uppho" style="
+    color: black;
+    font-size: 11px;
+	cursor: pointer;
+">выберите фотографию</label><input style="display: none;" type="file" accept="image/jpeg,image/png,image/gif" name="picture" id="uppho"><input value="загрузить" type="submit" id="button" style="
+    margin-left: 5px;
+	cursor: pointer;
+"></div></form>';
+}else{
+	echo '<div style="
+    position: absolute;
+    font-size: 12px;
+    margin: 0px 58px;
+    margin-top: 120px;
+" align="center"><label for="uppho" style="
+    color: black;
+    font-size: 11px;
+	cursor: pointer;
+">Нет фотографии</label></div>';
+}
+echo '<img src="img/camera_200.png"><br><br>';
     }
     /*if($user['advice_settings'] == '1'){
       echo '<img src="https://i.imgur.com/MuJ4hhF.png" width=200>';
     }*/
+if($id != 100){	
     if($user['ban'] != '1'){
 if($_SESSION['loginin'] == "1"){
 if($id != $_SESSION['id']){
@@ -85,6 +138,13 @@ $qfc2 = $dbh1->prepare("SELECT * FROM `friends` WHERE `id1` = '".$id."' AND `id2
 $qfc2->execute();
 $fc2 = $qfc2->fetch();
 if($id != '100'){
+if ($_SESSION['id'] != $id AND $_SESSION['groupu'] == 3){
+	echo '<a style="color: gray;">Админ-панель пользователя:</a><hr style="border-style: dashed;border-width: 0.5px;border-color: #b8bdd0;margin: 5 0;">';
+	echo '<a id="aprofile" href="add_ban.php?id='.$user['id'].'">Заморозить</a>';
+	echo '<a id="aprofile" href="add_groupu.php?gr=3&id='.$user['id'].'">Назначить администратором</a>';
+	echo '<a id="aprofile" href="add_groupu.php?gr=2&id='.$user['id'].'">Назначить тестером</a>';
+	echo '<hr style="border-style: dashed;border-width: 0.5px;border-color: #b8bdd0;margin: 10 0;">';
+} 
 if($fc['id1'] == $_SESSION['id'] && $fc['id2'] == $id && $fc2['id1'] == $id && $fc2['id2'] == $_SESSION['id']){
 echo '<a id="aprofile" href="del_friend.php">Удалить из друзей</a><a id="aprofile" href="sendmessage.php?id='.$id.'">Отправить сообщение</a>';
 $friends_verify = 1;
@@ -102,12 +162,136 @@ $friends_verify = 0;
 }
 }
 }   if ($_SESSION['id'] == $id){
-    echo '<a id="aprofile" href="settings.php">Редактировать страницу</a>';
+    echo '<a id="aprofile" href="edit_page.php">Редактировать страницу</a>';
    }
     if ($_SESSION['groupu'] == "2" AND $_SESSION['id'] != $id){
     echo '<a id="aprofile" href="admin_users.php?idu='.$user['id'].'">Админ-Панель Юзера</a>';
 }
+
     ?>
+	
+	<br>
+
+	
+	<?php
+	$regs = 5;
+	if($user['avatar'] != null){
+		$avas = 25;
+	}else{
+		$avas = 0;
+	}
+	
+	if($user['gender'] == 1 OR $user['gender'] == 2 OR $user['gender'] == 3){
+		$gens = 10;
+	}else{
+		$gens = 0;
+	}
+	
+	if($user['aboutuser'] != null){
+		$abos = 10;
+	}else{
+		$abos = 0;
+	}
+	
+	if($user['email'] != null){
+		$ems = 20;
+	}else{
+		$ems = 0;
+	}
+	
+	if($user['telephone'] != null){
+		$phs = 20;
+	}else{
+		$phs = 0;
+	}
+	
+	if($user['status'] != null){
+		$stats = 10;
+	}else{
+		$stats = 0;
+	}
+	
+	if($user['rating'] == NULL){
+	$lastr = 0;
+}else{
+	$lastr = $user['rating'];
+}
+	$rejting = $regs + $avas + $gens + $abos + $ems + $phs + $stats + $lastr;
+	if($rejting > 100){
+	$rwr = $rejting/5;
+	$ratwid = round($rwr);
+	}elseif($rejting <= 100){
+	$ratwid = $rejting*2;
+	}
+	?>
+	
+	
+	<div style="
+<?php if($rejting <= 100){ ?>
+    background: #f7f7f7;
+    border-top: 1px solid #ececec;
+<?php }else{ ?>
+	background: #e1cd7b;
+    border-top: 1px solid #bda954;
+<?php } ?>
+    height: 18px;
+" align="center">
+    <div style="
+<?php if($rejting <= 100){ ?>
+    background: #dae1e7;
+    border-top: 1px solid #b8bdd0;
+<?php }else{ ?>
+    background: #cab563;
+    border-top: 1px solid #a38b3d;
+<?php } ?>
+    height: 18px;
+    margin-top: -1px;
+    max-width: 200px;
+    position: absolute;
+    width: <?php echo $ratwid; ?>px;
+"></div><div style="
+    width: max-content;
+    position: relative;
+<?php if($rejting <= 100){ ?>
+    color: #2b587a;
+<?php }else{ ?>
+	color: #8e772f;
+<?php } ?>
+    padding: 2px 0;
+"><?php echo $rejting; ?>%</div>
+
+</div>
+<?php
+if($rejting < 100 AND $user['id'] == $_SESSION['id']) {
+echo '<br>';
+}
+if($user['id'] == $_SESSION['id']){
+	if($user['avatar'] == null){
+		echo '<div style="background: url(/img/images/icon3.gif) no-repeat 1px;padding: 4px 23px;padding-right: 0px;"><a>Загрузить фотографию </a><a style="color: black;">(+25%)</a></div>';
+	}
+	
+	if($user['gender'] != 1 AND $user['gender'] != 2 AND $user['gender'] != 3){
+		echo '<div style="background: url(/img/images/icon4.gif) no-repeat 1px;padding: 4px 23px;padding-right: 0px;"><a>Указать пол </a><a style="color: black;">(+10%)</a></div>';
+	}
+	
+	if($user['aboutuser'] == null){
+		echo '<div style="background: url(/img/images/icon1.gif) no-repeat 1px;padding: 4px 23px;padding-right: 0px;"><a>Рассказать о себе </a><a style="color: black;">(+10%)</a></div>';
+	}
+	
+	if($user['email'] == null){
+		echo '<div style="background: url(/img/images/icon2.gif) no-repeat 1px;padding: 4px 23px;padding-right: 0px;"><a>Указать email </a><a style="color: black;">(+20%)</a></div>';
+	}
+	
+	if($user['telephone'] == null){
+		echo '<div style="background: url(/img/images/icon2.gif) no-repeat 1px;padding: 4px 23px;padding-right: 0px;"><a>Указать номер телефона </a><a style="color: black;">(+20%)</a></div>';
+	}
+	
+	if($user['status'] == null){
+		echo '<div style="background: url(/img/images/icon5.gif) no-repeat 1px;padding: 4px 23px;padding-right: 0px;"><a>Написать статус </a><a style="color: black;">(+10%)</a></div>';
+	}
+}
+}
+?>
    </div>
      
    <? 
@@ -142,11 +326,11 @@ $friends_verify = 0;
       $q5 -> execute(); 
       $friend = $q5->fetch(); // ответ в переменную .
       if($friend['ban'] != '1'){
-     if ($friend['avatar'] != null) {
-      echo '<div id="content-friends-friend"><img id="avatar" src="avatarc.php?image='.$friend['avatar'].'" style="margin-top: 3px;">
+     if ($friend['avatar_50'] != null) {
+      echo '<div id="content-friends-friend"><img id="avatar" src="'.$friend['avatar_50'].'" style="margin-top: 3px;">
      <b style="margin-right: 3px;"><a style="margin-top: 3px;" href="id'.$friend['id'].'">'.$friend['name'].'<br> <text style="font-size: 8px;">'.$friend['surname'].'</text></a></b></div>';
     }else{
-      echo '<div id="content-friends-friend"><img id="avatar" src="img/camera_200.png" width="50" height="50" style=" margin-top: 3px;">
+      echo '<div id="content-friends-friend"><img id="avatar" src="img/images/nophoto1.gif" width="50" style=" margin-top: 3px;">
      <b style="margin-right: 3px;"><a style="margin-top: 3px;" href="id'.$friend['id'].'">'.$friend['name'].'<br> <text style="font-size: 8px;">'.$friend['surname'].'</text></a></b></div>';
     }
   } 
@@ -155,6 +339,7 @@ $friends_verify = 0;
 	  </div>
 	</div>
 	</div>
+	
 	<?}
    $qgroupscount = $dbh1->prepare("SELECT COUNT(1) FROM `clubsub` WHERE `id1`='".$id."'");
    $qgroupscount -> execute();
@@ -188,7 +373,7 @@ $subu = $qsubu->fetch();
 if ($subu['avatar'] != null) {
 echo '<table border="0" style="font-size:11px;clear:both;"><div style="clear:both;"><tr><td style="width:25px;margin-right:7px;"><img src="'.$subu['avatar'].'" width="25" height="auto" style="clear:both;"></td><td style="width:168px;"><b style="padding-left:7px;clear:both;"><a href="club'.$subu['id'].'" style="clear:both;">'.substr($subu['name'], 0, 45).'</a></b></td></tr></div></table>';
 }else{
-echo '<table border="0" style="font-size:11px;clear:both;"><div style="clear:both;"><tr><td style="width:25px;margin-right:7px;"><img src="img/camera_200.png" width="25" height="auto" style="clear:both;"></td><td style="width:168px;"><b style="padding-left:7px;clear:both;"><a href="club'.$subu['id'].'" style="clear:both;">'.substr($subu['name'], 0, 45).'</a></b></td></tr></div></table>';
+echo '<table border="0" style="font-size:11px;clear:both;"><div style="clear:both;"><tr><td style="width:25px;margin-right:7px;"><img src="img/images/nophoto1.gif" width="25" height="auto" style="clear:both;"></td><td style="width:168px;"><b style="padding-left:7px;clear:both;"><a href="club'.$subu['id'].'" style="clear:both;">'.substr($subu['name'], 0, 45).'</a></b></td></tr></div></table>';
 }
 
 }
@@ -219,7 +404,7 @@ echo '<table border="0" style="font-size:11px;clear:both;"><div style="clear:bot
    <div id="content-wall-send"><?echo $vdcounnt;?><a href="/videos.php?id=<?echo $id;?>" class="fl_r">Все</a></div>
 	  <div class="profile_info" style="padding:0px;">
 	  <? 
-$qvideo = $dbh1->prepare("SELECT * FROM `video` WHERE `aid` = '".$id."' ORDER BY RAND() LIMIT 2");
+$qvideo = $dbh1->prepare("SELECT * FROM `video` WHERE `aid` = '".$id."' ORDER BY id DESC LIMIT 2");
  $qvideo->execute();
  while ($vid = $qvideo->fetch()) {
    $qg = $dbh1->prepare("SELECT * FROM `video` WHERE `id` = '".$vid['id']."'");
@@ -229,11 +414,46 @@ if($video['avatar']){
 $av = $video['avatar'];
 $video['avatar'] = 'avatart.php?image='.$video['avatar'];
 }else{
-$video['avatar'] = "img/camera_200.png";
+$video['avatar'] = "img/images/nophoto1.gif";
 $av = $video['avatar'];
 }
-echo '<table border="0" style="font-size:11px;clear:both;"><div style="clear:both;"><tr><td style="width:25px;margin-right:7px;"><img src="https://img.youtube.com/vi/'.$video['id_video'].'/0.jpg" width="50" height="auto" style="clear:both;"></td><td style="width:168px;"><b style="padding-left:7px;clear:both;"><a href="video'.$video['id'].'" style="clear:both;">'.$video['name'].'</a></b></td></tr></div></table>';
+echo '<table border="0" style="font-size:11px;clear:both;"><div style="clear:both;"><tr><td style="width:25px;margin-right:7px;"><img style="width: 170px;clear:both;margin: 0px 11px;" src="https://img.youtube.com/vi/'.$video['id_video'].'/0.jpg" height="auto" style="clear:both;"><div style="margin: 0px 11px;margin-top: 3px;"><b><a href="video'.$video['id'].'" style="clear:both;">'.$video['name'].'</a></b></div></td></tr></div></table>';
  }
+?>
+
+	  </div>
+	</div>
+	</div>	
+   <?}
+   $qgiftscount = $dbh1->prepare("SELECT COUNT(1) FROM `giftogift` WHERE `toid`='".$id."'");
+   $qgiftscount -> execute();
+   $gfcount = $qgiftscount->fetch();
+   $gfcount = $gfcount[0];
+   if ($gfcount == '1') {
+     $gfcounnt = (string)$vdcount." подарок";
+   }else if ($gfcount == '2' OR $gfcount == '3' OR $gfcount == '4') {
+     $gfcounnt = (string)$gfcount." подарка";
+   }else{
+     $gfcounnt = (string)$gfcount." подарков";
+   }
+   if ($gfcount!=0) {
+   ?>
+	<div id="content-groups" class="content_left">
+			<div id="content-wall-title" class="clear_fix" style="margin-top:15px;" onclick="hidePanel(this,<?echo $gfcount;?>);">
+				<div class="hideTitle"></div>Подарки
+			</div>
+			<div id="profile_friends_list">
+   <div id="content-wall-send"><?echo $gfcounnt;?><a href="/owngifts.php?id=<?echo $id;?>" class="fl_r">Все</a></div>
+	  <div class="profile_info" style="padding:0px;">
+	  <? 
+$qsi = "SELECT * FROM giftogift WHERE toid = '".$id."' ORDER BY RAND() LIMIT 4"; // выбираем нашего 
+$qsa = $dbh1->prepare($qsi); // отправляем запрос серверу
+$qsa -> execute(); 
+ while ($qsu = $qsa->fetch()) {
+   $mama = $dbh1->prepare("SELECT * FROM `gifts` WHERE `id` = '".$qsu['giftid']."'");
+$mama->execute();
+$gafa = $mama->fetch();
+echo '<img style="width: 49px;" src="content/gift/'.$gafa['id'].'.jpg">'; }
 ?>
 
 	  </div>
@@ -320,7 +540,7 @@ echo '<table border="0" style="font-size: 11px;">
           <img src="img/note.gif">
         </td>
         <td style="vertical-align: 0;">
-          <a href="note'.$notee['id'].'"><h4><b>'.$notee['name'].'</b></h4></a><span><br>Написана '.zmdate($notee['date']).'</span><br>
+          <a href="note'.$notee['id'].'"><h4><b>'.$notee['name'].'</b></h4></a><span>Написана '.zmdate($notee['date']).'</span><br>
         </td>
       </tr>
     </tbody>
@@ -339,61 +559,194 @@ echo '<table border="0" style="font-size: 11px;">
 
 
     <? if($_SESSION['loginin'] == '1') { ?>
-     <div class="clear" id="profile_current_info"><div class="absolutemenu" id="statusarea" style="display: none;padding: 5px;margin:-10px;"><form method="get" action="change_status.php" style="margin:0;"><input type="text" name="status" id="text" size="75" value="<?php if($user['ban'] != '1'){ echo $user['status']; }?>"><br><br><input type="submit" id="button" value="Сохранить"></form></div><a <? if($_SESSION['id'] == $id){?> href="#" onclick="openStatusEdit()" <? } ?> style="font-size:11px;word-wrap:break-word;overflow:hidden;text-decoration: none;color: black;font-weight: initial;"><?php if($user['ban'] != '1'){ echo $user['status']; }?></a></div>
+     <div class="clear" id="profile_current_info"><div class="absolutemenu" id="statusarea" style="display: none;padding: 5px;margin:-10px;"><form method="get" action="change_status.php" style="margin:0;"><input type="text" name="status" id="text" size="75" value="<?php if($user['ban'] != '1'){ echo $user['status']; }?>"><br><br><input type="submit" id="button" value="Сохранить"></form></div><a <? if($_SESSION['id'] == $id){?> href="#" onclick="openStatusEdit()" <? } ?> style="font-size:11px;word-wrap:break-word;overflow:hidden;text-decoration: none;color: black;font-weight: initial;"><?php if($user['ban'] != '1'){  if($user['status'] != NULL){ echo $user['status'];}else{ if($user['id']==$_SESSION['id']){ echo '<div style="margin-top: 3px;margin-bottom: 7px;"><a href="#" onclick="openStatusEdit()" style="color: #c5c5c5;font-family: verdana, arial, sans-serif;font-size: 11px;">[ Изменить статус ]</a></div>';} } }?></a></div>
     <? } ?>
 
     
   </h4>
+<? if ($user['id'] != '100'){?>
         <? if ($user['ban'] != '1'){?>
-
-        <div class="profile_info" class="clear_fix"><div class="clear_fix">
-          <? if($id == '100') { echo "<center><b>Официальная страница администрации OpenVK.</b></center>
-<br>
-<center>
-Если у Вас возникла проблема или Вам требуется помощь, обратитесь в <a href='club2'>службу поддержки.</a> </center> "; } ?>
-            <? if($id != '100') { ?>
-  <div class="label fl_l">День рождения:</div>
-  <div class="labeled fl_l"><?php echo zmbd($user['birthdate']);?> г.</div>
-</div><div class="clear_fix miniblock">
-  <div class="label fl_l">Пол:</div>
-  <div class="labeled fl_l"><?php if ($user['gender'] == '1') {
-        echo "Мужской";
+		<div id="page_inf">
+<table style="font-size: 11px;">
+<tbody>
+<?php if ($user['gender'] != '0' AND $user['gender'] != NULL) {
+      if ($user['gender'] == '1') {
+        echo '<tr><td id="info_title">Пол:</td><td>мужской</td></tr>';
       }else if ($user['gender'] == '2'){ 
-        echo "Женский";
-      }else if ($user['gender'] == '0'){
-          echo "<i>&#60;не указано&#62;</i>";
-      }?></div>
-      <br>
-  <div class="label fl_l">О себе:</div>
+        echo '<tr><td id="info_title">Пол:</td><td>женский</td></tr>';
+      }
+      }
+	  if ($user['sp'] != '0' AND $user['sp'] != NULL) {
+	  echo '<tr><td id="info_title">Семейное положение:</td><td>';
+      if ($user['sp'] == '1'){ 
+	  if($user['gender'] == 2){
+        echo "не замужем";
+	  }else{
+		 echo "нe женат";
+	  }
+      }else if ($user['sp'] == '2'){ 
+		 echo "встречаюсь";
+	  }else if ($user['sp'] == '3'){ 
+	  if($user['gender'] == 2){
+        echo "помолвлена";
+	  }else{
+		 echo "помолвлен";
+	  }
+      }else if ($user['sp'] == '4'){ 
+	  if($user['gender'] == 2){
+        echo "замужем";
+	  }else{
+		 echo "женат";
+	  }
+      }else if ($user['sp'] == '5'){ 
+		 echo "в гражданском браке";
+	  }else if ($user['sp'] == '6'){ 
+	  if($user['gender'] == 2){
+        echo "влюблена";
+	  }else{
+		 echo "влюблён";
+	  }
+      }else if ($user['sp'] == '7'){ 
+		 echo "всё сложно";
+	  }else if ($user['sp'] == '5'){ 
+		 echo "в активном поиске";
+	  }
+	  echo '</td></tr>';
+	  }
+	  if ($user['city'] != '0' AND $user['city'] != NULL) {
+      echo '<tr><td id="info_title">Родной город:</td><td>'.$user['city'].'</td></tr>';
+      }
+	  if ($user['pv'] != '0' AND $user['pv'] != NULL) {
+      echo '<tr><td id="info_title">Полит. взгляды:</td><td>'.$user['pv'].'</td></tr>';
+      }
+	  if ($user['rv'] != '0' AND $user['rv'] != NULL) {
+      echo '<tr><td id="info_title">Религ взгляды:</td><td>'.$user['rv'].'</td></tr>';
+      }
+	  ?>
+</tbody>
+</table>
+</div>	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+        <div id="osninf" class="profile_info" class="clear_fix"><div class="clear_fix">
+
+            
+	  
+</div></div>
+
+<div id="content-full-info">
+<div id="content-wall-title" class="clear_fix" style="margin-top:15px;" onclick="hidePanel(this);"><div class="hideTitle"></div>Информация</div>
+<div id="inf" class="profile_info" >
+<h4 style="
+    border-bottom: none;
+    font-size: 11px;
+    padding: 0;
+    display: inline-block;
+">Контактная информация</h4><?php if($user['id'] == $_SESSION['id']){ echo'<a href="/edit_page.php" style="color: #c5c5c5;font-family: verdana, arial, sans-serif;font-size: 11px;font-weight: bold;margin-left: 10px;">[ редактировать ]</a>'; } ?>
+<div class="clear_fix miniblock">
+<?
+if($user['city2']!=NULL){
+echo '<div class="label fl_l">Город: </div>
+<div id="labelblue" class="labeled fl_l">'.$user['city2'].'
+</div>';
+}
+if($user['telephone']!=NULL){
+if($user['telephone_settings']==1 OR $friends_verify==1 OR $user['id']==$_SESSION['id']){
+echo '<div class="label fl_l">Моб. телефон: </div>
+<div id="labelblue" class="labeled fl_l">'.$user['telephone'].'
+</div>';
+}else{
+	echo '<div class="label fl_l">Моб. телефон: </div>
+<div style="color: darkgray; class="labeled fl_l">Информация скрыта
+</div>';
+}
+}
+if($user['email']!=NULL){
+if($user['email_settings']==1 OR $friends_verify==1 OR $user['id']==$_SESSION['id']){
+echo '<div class="label fl_l">Эл. почта: </div>
+<div id="labelblue" class="labeled fl_l">'.$user['email'].'
+</div>';
+}else{
+	echo '<div class="label fl_l">Эл. почта: </div>
+<div style="color: darkgray;" class="labeled fl_l">Информация скрыта
+</div>';
+}
+}
+$website = preg_replace("~(http|https|ftp|ftps)://(.*?)(\s|\n|[,.?!](\s|\n)|$)~", '<a href="$1://$2">$1://$2</a>$3', $user['site']);
+if($user['site']!=NULL){
+echo '<div class="label fl_l">Веб-сайт: </div>
+<div class="labeled fl_l">'.$website.'
+</div>';
+}
+?>
+</div><div class="clear_fix miniblock">
+<h4 style="
+    border-bottom: none;
+    font-size: 11px;
+    padding: 10px 0 2px;
+">Личная информация<?php if($user['id'] == $_SESSION['id']){ echo'<a href="/edit_page.php" style="color: #c5c5c5;font-family: verdana, arial, sans-serif;font-size: 11px;font-weight: bold;margin-left: 10px;">[ редактировать ]</a>'; } ?></h4>
+  <?php 
+  if($user['do']!=NULL){
+echo '<div class="label fl_l">Должность: </div>
+<div id="labelblue" class="labeled fl_l">'.$user['do'].'
+</div>';
+}
+if($user['interes']!=NULL){
+echo '<div class="label fl_l">Интересы: </div>
+<div id="labelblue" class="labeled fl_l">'.$user['interes'].'
+</div>';
+}
+if($user['mus']!=NULL){
+echo '<div class="label fl_l">Любимая музыка: </div>
+<div id="labelblue" class="labeled fl_l">'.$user['mus'].'
+</div>';
+}
+if($user['films']!=NULL){
+echo '<div class="label fl_l">Любимые фильмы: </div>
+<div id="labelblue" class="labeled fl_l">'.$user['films'].'
+</div>';
+}
+if($user['favorite_shows']!=NULL){
+echo '<div class="label fl_l">Любимые телешоу: </div>
+<div id="labelblue" class="labeled fl_l">'.$user['favorite_shows'].'
+</div>';
+}
+if($user['book']!=NULL){
+echo '<div class="label fl_l">Любимые книги: </div>
+<div id="labelblue" class="labeled fl_l">'.$user['book'].'
+</div>';
+}
+if($user['games']!=NULL){
+echo '<div class="label fl_l">Любимые игры: </div>
+<div id="labelblue" class="labeled fl_l">'.$user['games'].'
+</div>';
+}
+if($user['quo']!=NULL){
+echo '<div class="label fl_l">Любимые цитаты: </div>
+<div id="labelblue" class="labeled fl_l">'.$user['quo'].'
+</div>';
+}
+  ?>
+  <div  class="label fl_l">О себе:</div>
   <? if($user['aboutuser']){
   	echo '<div class="labeled fl_l">'.$user['aboutuser'].'</div>';
   }else{
-  	echo '<div class="labeled fl_l"><i>&#60;нет информации&#62;</i></div>';
+  	echo '<div class="labeled fl_l"><a style="color: darkgray;">Нет информации</a></div>';
   }?>
-</div></div>
-      <? /* if($user['advice_settings'] == '1'){
-      echo '<br><img src="https://i.imgur.com/VTXsTUi.png" width=200> <img src="https://i.imgur.com/alboVp6.png" width=200>';
-    }*/ ?>
-<? if (($user['telephone']!="" and $user['telephone_settings']==1 or $friends_verify==1) or ($user['email']!="" and $user['email_settings']==1 or $friends_verify==1)) {
-	
-?>
-<div id="content-full-info">
-<div id="content-wall-title" class="clear_fix" style="margin-top:15px;" onclick="hidePanel(this);"><div class="hideTitle"></div>Информация</div>
-<div class="profile_info" >
-<div class="clear_fix miniblock">
-<? if ($user['telephone_settings']==1 or $friends_verify==1 or $id == $_SESSION['id']) 
-echo $user['telephone']!=""?'<div class="label fl_l">Номер телефона: </div>
-<div class="labeled fl_l">'.$user['telephone'].'
-</div>':'';
-if ($user['email_settings']==1 or $friends_verify==1 or $id == $_SESSION['id']) 
-echo $user['email']!=""?'<div class="label fl_l">Email: </div>
-<div class="labeled fl_l">'.$user['email'].'
-</div>':'';
-?>
+  </div>
 </div>
 </div>
 </div>
-<?}
+<?
    $qwallcount = $dbh1->prepare("SELECT COUNT(1) FROM `wall` WHERE `idwall`='".$id."'");
    $qwallcount -> execute();
    $wlcount = $qwallcount->fetch();
@@ -404,6 +757,7 @@ echo $user['email']!=""?'<div class="label fl_l">Email: </div>
     <div id="profile_wall">
 	<div id="content-wall-send" class="clear_fix">
 	<?
+
    if ($wlcount == '1' OR $wlcount == '21') {
     if ($wlcount < '10') {
      $wlcounnt = "Показано ".(string)$wlcount." из ".(string)$wlcount." записи";
@@ -416,6 +770,8 @@ echo $user['email']!=""?'<div class="label fl_l">Email: </div>
    }else{
      $wlcounnt = "Показано 10 из ".(string)$wlcount." записей";
    }
+   }elseif($wlcount == '0'){
+	   $wlcounnt = "Нет записей";
    }else{
     if ($wlcount < '10') {
      $wlcounnt = "Показано ".(string)$wlcount." из ".(string)$wlcount." записей";
@@ -428,8 +784,11 @@ echo $user['email']!=""?'<div class="label fl_l">Email: </div>
     <div class="post-textarea" style="display: none;">
     <form method="post" action="add_post.php" enctype="multipart/form-data">
      <textarea placeholder="Что нового?" name="text"></textarea><div id="postphoto" style="display: none;"><input type="file" name="upimg" accept="image/jpeg,image/png,image/gif"></div><div style="float:right;clear:both;margin-top: 8px;"><a href="#" onclick="openMenuPin();" class="pinlink">Прикрепить</a><div class="absolutemenu" id="pinpostmenu" style="display: none;"><a href="#" onclick="menuPinPhoto();" ><img src="img/photo-icon.png"> Фотография</a></div></div><input type="submit" id="button" value="Опубликовать" style="float:left;margin-top:5px;"></form><div style="clear:both;"></div></div>
-    <? } ?></div>
-    <? /*if($user['advice_settings'] == '1'){
+    <? } 
+	?></div>
+    <? if($wlcount == '0'){
+	   echo '<div style="margin-left: 10px;">Здесь никто ничего не написал... Пока.</div>';
+   } /*if($user['advice_settings'] == '1'){
   echo '<img src="https://i.imgur.com/16Dt2OV.png" width=400>';
  }*/ ?>
     <?	
@@ -440,7 +799,7 @@ $q2 = $dbh1->prepare("SELECT * FROM `wall` WHERE `idwall`='".$id."' ORDER BY id 
 $q2 -> execute();
 while($wall = $q2->fetch()) {
   if ($wall['iduser'] == $_SESSION['id'] OR $wall['idwall'] == $_SESSION['id']) {
-    $deletebutton = '<a href="del_post.php?id='.$wall['id'].'" style="float:left;">Удалить</a>';
+    $deletebutton = '<a href="#" onclick="openWindowsQDel('.$wall['id'].')" style="float:left;">Удалить</a>';
   }else{
     $deletebutton = '';
   }
@@ -448,23 +807,37 @@ while($wall = $q2->fetch()) {
    $q3 = $dbh1->prepare("SELECT * FROM `users` WHERE `id`='".$wall['iduser']."'"); // отправляем запрос серверу
    $q3 -> execute(); 
    $authorwall = $q3->fetch(); // ответ в переменную .
-   if(time()-300 <= $authorwall['lastonline']){
-    $onlinewall = "<b>Онлайн</b>";
-  }else{
     $onlinewall = "";
-  }
    if ($authorwall['avatar'] != null) {
     if ($wall['image'] != null) {
-     $im = '<br><br><a href="watchi.php?image='.$wall['image'].'"><img src="imagep.php?image='.$wall['image'].'"></a>';
+    $q3 = $dbh1->prepare("SELECT * FROM `photo` WHERE id = :id");
+    $q3->bindValue(':id', $wall['image']);
+    $q3 -> execute(); 
+    $photowall = $q3->fetch(); // ответ в переменную .
+    if (!empty($photowall['image_333'])) {
+      $im = '<br><br><a href="watchi.php?id='.$wall['image'].'"><img src="'.$photowall['image_333'].'"></a>';
+    }else{
+      $im = '';
+    }
    }else{
         $im = '';
    }
-   if($authorwall['gender'] == "1"){
+   if($wall['action'] == 1){
+      if($authorwall['gender'] == 1){
+	   $nap = "обновил фотографию на странице";
+   }elseif($authorwall['gender'] == 2){
+	   $nap = "обновила фотографию на странице";
+   }else{
+	   $nap = "обновил(-а) фотографию на странице";
+   }
+   }else{ 
+   if($authorwall['gender'] == 1){
 	   $nap = "написал";
-   }elseif($authorwall['gender'] == "2"){
+   }elseif($authorwall['gender'] == 2){
 	   $nap = "написала";
    }else{
-	   $nap = "написал(-а)";
+	   $nap = "написало";
+   }
    }
    
     if ($wall['date']+172800 > time()) {
@@ -481,14 +854,19 @@ while($wall = $q2->fetch()) {
    }else{
      $redach = '';
    }
+   
   
    if ($wall['edited'] == "1") {
-   $redached = " <span>(ред.)</span>";
+   $redached = " <span> (ред.)</span>";
  }else{
   $redached = '';
  }
+ 
+ if($wall['action'] == 1){
+	   $redach = '';
+   }
    echo '<div id="content-wall-post"><table border="0" style="font-size:11px;"><tr><td style="width:54px;vertical-align:top;">
-   <div id="content-wall-post-avatar"><img id="avatar" src="avatarc.php?image='.$authorwall['avatar'].'" width="50"></div>'.$onlinewall.'</td><td style="width:345px;vertical-align:0;">
+   <div id="content-wall-post-avatar"><img id="avatar" src="'.$authorwall['avatar_50'].'" width="50"></div>'.$onlinewall.'</td><td style="width:345px;vertical-align:0;">
      <div id="content-wall-post-infoofpost">
       
       <div id="content-wall-post-authorofpost"><text style="margin-right: 3px;"><b><a href="id'.$authorwall['id'].'">'.$authorwall['name'].' '.$authorwall['surname'].'</a></b></text>'.$nap.$redached.'<br><div id="content-date"><a href="post'.$wall['id'].'">'.zmdate($wall['date']).'</a></div></div>
@@ -505,21 +883,42 @@ while($wall = $q2->fetch()) {
     </td></tr></table></div><br>';
    }else{
     if ($wall['image'] != null) {
-     $im = '<br><br><a href="watchi.php?image='.$wall['image'].'"><img src="imagep.php?image='.$wall['image'].'"></a>';
+        $qua = "SELECT * FROM `photo` WHERE `id`=:photo";
+        $q3 = $dbh1->prepare($qua);
+        $q3->bindParam(':photo', $wall['image']);
+        $q3->execute();
+        $photowall = $q3->fetch(); // ответ в переменную .
+    if (!empty($photowall['image_333'])) {
+      $im = '<br><br><a href="watchi.php?id='.$wall['image'].'"><img style="max-width: 333px;" src="'.$photowall['image_333'].'"></a>';
+    }else{
+      $im = '';
+    }
    }else{
         $im = '';
-      }
-      if(time()-300 <= $authorwall['lastonline']){
-    $onlinewall = "<b>Онлайн</b>";
-  }else{
+   }
+   
+   if($wall['action'] == "1"){
+	   $im = '<a href="watchi.php?id='.$wall['image'].'"><img style="max-width: 333px;" src="'.$wall['image'].'"></a>';
+   }
+
     $onlinewall = "";
-  }
-   if($authorwall['gender'] == "1"){
+
+   if($wall['action'] == 1){
+      if($authorwall['gender'] == 1){
+	   $nap = "написал фотографию на странице";
+   }elseif($authorwall['gender'] == 2){
+	   $nap = "обновила фотографию на странице";
+   }else{
+	   $nap = "обновил(-а) фотографию на странице";
+   }
+   }else{ 
+   if($authorwall['gender'] == 1){
 	   $nap = "написал";
-   }elseif($authorwall['gender'] == "2"){
+   }elseif($authorwall['gender'] == 2){
 	   $nap = "написала";
    }else{
 	   $nap = "написало";
+   }
    }
    
     if ($wall['date']+172800 > time()) {
@@ -535,12 +934,15 @@ while($wall = $q2->fetch()) {
   $redach = '';
  }
   if ($wall['edited'] == "1") {
-   $redached = "<span>(отредактированно)</span>";
+   $redached = "<span> (ред.)</span>";
  }else{
   $redached = '';
  }
+  if($wall['action'] == 1){
+	   $redach = '';
+   }
     echo '<div id="content-wall-post"><table border="0" style="font-size:11px;"><tr><td style="width:54px;vertical-align:top;">
-    <div id="content-wall-post-avatar"><img id="avatar" src="img/camera_200.png" width="50" height="50"></div>'.$onlinewall.'</td><td style="width:345px;vertical-align:0;">
+    <div id="content-wall-post-avatar"><img id="avatar" src="img/images/nophoto1.gif" width="50"></div>'.$onlinewall.'</td><td style="width:345px;vertical-align:0;">
      <div id="content-wall-post-infoofpost">
       
       <div id="content-wall-post-authorofpost"><text style="margin-right: 3px;"><b><a href="id'.$authorwall['id'].'">'.$authorwall['name'].' '.$authorwall['surname'].' '.$var.'</a></b></text>'.$nap.$redached.'<br><div id="content-date"><a href="post'.$wall['id'].'">'.zmdate($wall['date']).'</a></div></div>
@@ -558,22 +960,42 @@ while($wall = $q2->fetch()) {
    }
   }else{
     if ($wall['image'] != null) {
-     $im = '<br><br><a href="watchi.php?image='.$wall['image'].'"><img src="imagep.php?image='.$wall['image'].'"></a>';
+    $q3 = $dbh1->prepare("SELECT * FROM `photo` WHERE `id`=:id");
+    $q3->bindValue(':id', $wall['image']);
+    $q3 -> execute(); 
+    $photowall = $q3->fetch();
+    $im = '<br><br><a href="watchi.php?id='.$wall['image'].'"><img style="max-width: 333px;" src="'.$photowall[3].'"></a>';// ответ в переменную .
+    if (!empty($photowall[3])) {
+      $im = '<br><br><a href="watchi.php?id='.$wall['image'].'"><img style="max-width: 333px;" src="'.$photowall[3].'"></a>';
+    }else{
+      $im = '';
+    }
    }else{
         $im = '';
-      }
-      if(time()-300 <= $user['lastonline']){
-    $onlinewall = "<b>Онлайн</b>";
-  }else{
+   }
+      if($wall['action'] == "1"){
+	   $im = '<a href="watchi.php?id='.$wall['image'].'"><img style="max-width: 333px;" src="'.$wall['image'].'"></a>';
+   }
+
     $onlinewall = "";
-  }
+
     if ($user['avatar'] != null) {
-	if($user['gender'] == "1"){
+   if($wall['action'] == 1){
+      if($authorwall['gender'] == 1){
+	   $nap = "написал фотографию на странице";
+   }elseif($authorwall['gender'] == 2){
+	   $nap = "обновила фотографию на странице";
+   }else{
+	   $nap = "обновил(-а) фотографию на странице";
+   }
+   }else{ 
+   if($authorwall['gender'] == 1){
 	   $nap = "написал";
-   }elseif($user['gender'] == "2"){
+   }elseif($authorwall['gender'] == 2){
 	   $nap = "написала";
    }else{
 	   $nap = "написало";
+   }
    }
    
     if ($wall['date']+172800 > time()) {
@@ -589,12 +1011,15 @@ while($wall = $q2->fetch()) {
   $redach = '';
  }
  if ($wall['edited'] == "1") {
-   $redached = "<span>(отредактированно)</span>";
+   $redached = " <span>(ред.)</span>";
  }else{
   $redached = '';
  }
+  if($wall['action'] == 1){
+	   $redach = '';
+   }
       echo '<div id="content-wall-post"><table border="0" style="font-size:11px;"><tr><td style="width:54px;vertical-align:top;">
-      <div id="content-wall-post-avatar"><img id="avatar" src="avatarc.php?image='.$user['avatar'].'" width="50"></div>'.$onlinewall.'</td><td style="width:345px;vertical-align:0;">
+      <div id="content-wall-post-avatar"><img id="avatar" src="'.$user['avatar_50'].'" width="50"></div>'.$onlinewall.'</td><td style="width:345px;vertical-align:0;">
      <div id="content-wall-post-infoofpost">
       
       <div id="content-wall-post-authorofpost"><text style="margin-right: 3px;"><b><a href="id'.$user['id'].'">'.$user['name'].' '.$user['surname'].' '.$var.'</a></b></text>'.$nap.$redached.'<br><div id="content-date"><a href="post'.$wall['id'].'">'.zmdate($wall['date']).'</a></div></div>
@@ -611,21 +1036,40 @@ while($wall = $q2->fetch()) {
     </td></tr></table></div><br>';
     }else{
       if ($wall['image'] != null) {
-        $im = '<br><br><a href="watchi.php?image='.$wall['image'].'"><img src="imagep.php?image='.$wall['image'].'"></a>';
-      }else{
+    $q3 = $dbh1->prepare("SELECT * FROM `photo` WHERE `id`=:id");
+    $q3->bindValue(':id', $wall['image']);
+    $q3 -> execute(); 
+    $photowall = $q3->fetch(); // ответ в переменную .
+    if (!empty($photowall['image_333'])) {
+      $im = '<br><br><a href="watchi.php?id='.$wall['image'].'"><img style="max-width: 333px;" src="'.$photowall['image_333'].'"></a>';
+    }else{
+      $im = '';
+    }
+   }else{
         $im = '';
-      }
-      if(time()-300 <= $authorwall['lastonline']){
-    $onlinewall = "<b>Онлайн</b>";
-  }else{
+   }
+      if($wall['action'] == "1"){
+	   $im = '<a href="watchi.php?id='.$wall['image'].'"><img style="max-width: 333px;" src="'.$wall['image'].'"></a>';
+   }
+
     $onlinewall = "";
-  }
-  if($user['gender'] == "1"){
+
+   if($wall['action'] == 1){
+      if($authorwall['gender'] == 1){
+	   $nap = "написал фотографию на странице";
+   }elseif($authorwall['gender'] == 2){
+	   $nap = "обновила фотографию на странице";
+   }else{
+	   $nap = "обновил(-а) фотографию на странице";
+   }
+   }else{ 
+   if($authorwall['gender'] == 1){
 	   $nap = "написал";
-   }elseif($user['gender'] == "2"){
+   }elseif($authorwall['gender'] == 2){
 	   $nap = "написала";
    }else{
 	   $nap = "написало";
+   }
    }
   
      if ($wall['date']+172800 > time()) {
@@ -642,13 +1086,13 @@ while($wall = $q2->fetch()) {
   $redach = '';
  }
   if ($wall['edited'] == "1") {
-   $redached = "<span>(отредактированно)</span>";
+   $redached = "<span> (ред.)</span>";
  }else{
   $redached = '';
  }
       echo '
       <div id="content-wall-post"><table border="0" style="font-size:11px;"><tr><td style="width:54px;vertical-align:top;">
-      <div id="content-wall-post-avatar"><img id="avatar" src="img/camera_200.png" width="50" height="50"></div>'.$onlinewall.'</td><td style="width:345px;vertical-align:0;">
+      <div id="content-wall-post-avatar"><img id="avatar" src="img/images/nophoto1.gif" width="50"></div>'.$onlinewall.'</td><td style="width:345px;vertical-align:0;">
      <div id="content-wall-post-infoofpost">
       
       <div id="content-wall-post-authorofpost"><text style="margin-right: 3px;"><b><a href="id'.$user['id'].'">'.$user['name'].' '.$user['surname'].' '.$var.'</a></b></text>'.$nap.$redached.'<br><div id="content-date"><a href="post'.$wall['id'].'">'.zmdate($wall['date']).'</a></div></div>
@@ -667,11 +1111,14 @@ while($wall = $q2->fetch()) {
 }
 } }else{
     ?> <div id="msg">Для того, чтобы просматривать стену пользователя, вам необходимо авторизоваться</div><?php
-  } }?>
+  } ?>
    </div>
     <? } else { ?>
      <div id="msg">К сожалению нам пришлось заблокировать этого пользователя.<br> Комментарий модератора: <? if($user['comment_ban'] == null){echo "Причина не указана.";}else{echo $user['comment_ban']; echo ".";} ?></div>
     <? } ?>
+	<? }else{ ?>
+	<div style="padding: 69px 0;color: darkgray;text-align: center;width: 410px;">Страница используется Администрацией OpenVK. <br><br>По всем вопросам обращайтесь к <a href="id1">Владимиру Баринову</a> или <a href="id4">Константину Кичулкину</a>.</div>
+	<? } ?>
   </div>  
   </div>
   </div>
@@ -684,3 +1131,18 @@ while($wall = $q2->fetch()) {
  </body>
 </script>
 </html>
+<script type="text/javascript">
+  function openWindowsQDel(id){
+    WindowsQ = $.window({
+   title: "Подтверждение",
+   content: '<div style="padding:10px; font-size:11px;"><center>Вы действительно хотите удалить запись?</center><br><center><a href="del_post.php?id=' + id + '" id="button">Да</a> <a href="#" onclick="WindowsQ.close();" id="button">Нет</a></center></div>',
+   draggable: false,
+   resizable: false,
+   maximizable: false,
+   minimizable: false,
+   showModal: true,
+   width: 300,
+   height: 110
+});
+  }
+</script>

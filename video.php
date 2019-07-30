@@ -30,6 +30,11 @@ include('exec/leftmenu.php'); ?>
 <div id="content-main-gray"><center><iframe width="560" height="315" <? echo 'src="https://www.youtube.com/embed/'.$video_id.'" frameborder="0" allowfullscreen="allowfullscreen"'; ?> frameborder="1"></iframe></center><p style="font-size: 11px;"> <? echo ''.$about.''; ?></p><div style="float:right;width:200px;margin-top:-8px;">
 
 <a href="id<?php echo $bugrs['id']?>"><?php echo $bugrs['name'].' '.$bugrs['surname']?></a>
+<?php if($_SESSION['id'] == $video['aid']){ ?>
+<a href="del_vid.php?id=<?php echo $video['id']; ?>" style="
+    float: right;
+">удалить</a>
+<?php } ?>
 
 </div></div>
 <br><hr>

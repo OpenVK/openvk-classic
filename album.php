@@ -37,7 +37,7 @@ while($photo = $qs->fetch()){
 $qg = $dbh1->prepare("SELECT * FROM photo WHERE `id` = '".$photo['id']."'");
 $qg->execute();
 $photoo = $qg->fetch();
-echo '<a href="watchi.php?id='.$photoo['id'].'"><img src="imagesmall.php?image='.$photoo['image'].'" style="margin-right: 4px;margin-bottom: 4px;"></a>';
+echo '<a href="watchi.php?id='.$photoo['id'].'"><img width="150" src="'.$photoo['image_150'].'" style="margin-right: 4px;margin-bottom: 4px;"></a>';
 }
 ?>
 	<br>

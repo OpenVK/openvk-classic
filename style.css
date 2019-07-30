@@ -23,10 +23,10 @@ h4 .fl_r, h4 span {
 }
 
 #home {
-	left: 132;
-	width: 118px;
-	height: 33px;
-	position: absolute;
+    position: absolute;
+    left: 287px;
+    width: 137px;
+    height: 42px;
 }
 
 .clear_fix{
@@ -564,7 +564,9 @@ span {
     list-style-type: none;
     padding-bottom: 27px;
     border-bottom: 1px solid #56799F;
-    margin-bottom: 12px;
+    margin-bottom: -22px;
+    width: 600px;
+    margin-left: -10px;
 }
  
 #Tabs .Tab {
@@ -584,11 +586,6 @@ span {
     border-radius: 5px 5px 0px 0px;
 }
  
-#Tabs .Tab a:hover {
-    background-color: #56799F;
-    color: #fff;
-    padding: 5px;
-}
  
 /* Состояние: активная */
 #Tabs .SelectedTab {
@@ -692,4 +689,98 @@ cursor: pointer;
     overflow: hidden;
     display: inline-block;
 	
+}
+
+#profile_frineds_list #profile_info {
+	padding: 0px 3px;
+}
+#content-wall-post-avatar {
+    max-height: 82;
+	height: unset;
+    overflow: hidden;
+    display: inline-block;
+}
+
+#RecivedTab {
+    margin-left: -28px !important;
+}
+#Tabs .SelectedTab {
+    float: left;
+    height: 25px;
+    background-color: #56799F;
+    margin: 2px 0px 0px 5px;
+    padding: 0px 5px;
+    border-radius: 4px 4px 0px 0px;
+}
+#GeneralInfoTab {
+    margin-left: -28px !important;
+}
+#avatar {
+    max-width: 50px;
+}
+#aprofile {
+    margin: 0px;
+    padding: 3px;
+    display: block;
+    background: white;
+    border-bottom: solid 1px #ECECEC;
+    color: #2B587A;
+}
+h4 {
+    border-bottom: 1px solid #E8EBEE;
+    color: #45688E;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px 0px 3px;
+    font-family: verdana, arial, sans-serif;
+}
+.profile_info {
+    line-height: 140%;
+    padding: 5px 0px 0px;
+}
+#inf {
+    padding: 10px 0px 0px 10px;
+}
+#content-right {
+    width: 409px;
+    float: right;
+}
+#content-info {
+    width: 409px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    font-size: 11px;
+}
+#content-wall {
+    width: 409px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.simple {
+    margin-left: 10px;
+}
+.profile_info {
+    line-height: 140%;
+    padding: 5px 10px 0px;
+    display: inline-block;
+}
+#content-wall-post {
+    background-color: #ffffff;
+    padding: 0;
+    border-radius: 5px;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 11px;
+    padding-left: 10;
+}
+#labelblue {
+    color: #45688e;
+}
+#info_title {
+width: 120px;
+color: #848284;
+}
+#page_inf {
+	padding: 2px 0 5px 7px;
 }

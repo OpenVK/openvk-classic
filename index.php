@@ -15,7 +15,6 @@ include('exec/leftmenu.php');
     $_SESSION['errormsg'] = NULL;
   } ?>
    <form method="post" action="index.php">
-    
    <b>Добро пожаловать в OpenVK.</b><br><br>
    Этот сайт создан для быстрой связи с друзьями, одноклассниками и однокурсниками.<br><br>
    <?php $q = "SELECT COUNT(1) FROM users"; // выбираем нашего 
@@ -32,14 +31,16 @@ include('exec/leftmenu.php');
    }
  ?>
    Уже написано <b>5,000+</b> строчек кода и зарегистрированно <b><?php echo $userscouunt ?></b>.<br><br>
-   <span style="font-style:italic;">Не путать с другим продуктом с таким же названием &mdash; программы для взлома страницы во ВКонтакте. Обратите внимание, что мы лишь создаём социальную сеть с исходным кодом.</span><br><br>На сайте Вы можете:<br>
+   <span style="font-style:italic;">Не путать с другим продуктом с таким же названием &mdash; программы для взлома страницы во ВКонтакте и расширением для браузеров для разблокировки доступа к ВКонтакте вна Украине. Обратите внимание, что мы лишь создаём социальную сеть с исходным кодом.</span><br><br>На сайте Вы можете:<br>
    <ul>
      <li>Найти старых и новых друзей</li>
      <li>Узнать побольше информации о тех, с кем Вы дружили или учились</li>
      <li>Оставить данные о себе, чтобы находить новых друзей</li>
+     <li>Находить группы по интересам</li>
+     <li>и многое другое...</li>
    </ul><br>
    <br><center><a href="login.php" id="button">Вход</a><a id="button" style="margin-left:12px;" href="register.php">Регистрация</a></center><br><br>
-   <a href="tour.php?a=1"><div id="buttontour">Тур по сайту</div></a>
+   <a href="https://veselcraft.ru/wiki/index.php/%D0%A2%D1%83%D1%80_%D0%BF%D0%BE_OpenVK"><div id="buttontour">Тур по сайту</div></a>
    </form>
    
   </div>

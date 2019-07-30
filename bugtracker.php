@@ -6,7 +6,7 @@ if($_SESSION['loginin'] == "1" ){
 $qchu = $dbh1->prepare("SELECT * FROM users WHERE id = '".$_SESSION['id']."'");
 $qchu->execute();
 $chu = $qchu->fetch();
-if($chu['verify'] == "3" || $chu['verify'] == "5" || $chu['verify'] == "4" || $_SESSION['groupu'] == "2"){
+if($chu['verify'] == "3" || $chu['verify'] == "5" || $chu['verify'] == "4" || $_SESSION['groupu'] == "2" || $_SESSION['groupu'] == "1"){
 if(empty($_GET['type']) || $_GET['type'] == "bugs"){
 include 'exec/datefn.php';
 include 'exec/header.php';

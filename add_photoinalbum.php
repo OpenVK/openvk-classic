@@ -2,7 +2,9 @@
 session_start();
 include('exec/dbconnect.php');
 include('exec/check_user.php');
-$albumtest = $dbh1->prepare("SELECT * FROM album WHERE id = '".$_SESSION['idalbum']."'");
+include 'reseample.php';
+$albumtest = $dbh1->prepare("SELECT * FROM album WHERE id = :id");
+$albumtest->bindValue(":id", $_SESSION['idalbum']);
 $albumtest->execute();
 $albumcheck = $albumtest->fetch();
 if ($_SESSION['idalbum'] == $albumcheck['id']) {
@@ -19,17 +21,28 @@ if (!@copy($_FILES['picture']['tmp_name'], $path . $_FILES['picture']['name'])){
 echo 'error! check logs.';
 }else{
 if(strpos($_FILES['picture']['name'],'.jpg') || strpos($_FILES['picture']['name'],'.png') || strpos($_FILES['picture']['name'],'.jpeg') || strpos($_FILES['picture']['name'],'.gif' || $_FILES['picture']['name'],'.JPG') || strpos($_FILES['picture']['name'],'.PNG') || strpos($_FILES['picture']['name'],'.JPEG') || strpos($_FILES['picture']['name'],'.GIF')){
-	$avatarrr = $path.$rand.".jpg";
 //	rename($path.$_FILES['picture']['name'], $path.$_SESSION['id']."_1.jpg");
 imagejpeg(
 	imagecreatefromstring(
 		file_get_contents($path . $_FILES['picture']['name'])
 	),
-	$path.$rand.".jpg"
+	$filename = $path.$rand.".jpg"
 );
+			$filename_333 = $path.$rand."_333.jpg";
+			$filename_150 = $path.$rand."_150.jpg";
+					
+			reseample($filename, $filename_333, 333, 500);
+			reseample($filename, $filename_150, 150, 800);
+
 unlink($path . $_FILES['picture']['name']);
-$qoq = "INSERT INTO `photo` (`id`, `image`, `aid`, `date`, `album`) VALUES (NULL, '".$avatarrr."',  '".$_SESSION['id']."', '".time()."', '".$_SESSION['idalbum']."')"; // выбираем нашего 
+$qoq = "INSERT INTO `photo` (`id`, `image`, `image_333`, `image_150`, `aid`, `date`, `album`) VALUES (NULL, :image,  :image_333, :image_150, :aid, :dateup, :album)"; // выбираем нашего 
 $qoqa = $dbh1->prepare($qoq); // отправляем запрос серверу
+$qoqa->bindValue(':image', $filename);
+$qoqa->bindValue(':image_333', $filename_333);
+$qoqa->bindValue(':image_150', $filename_150);
+$qoqa->bindValue(':aid', $_SESSION['id']);
+$qoqa->bindValue(':dateup', time());
+$qoqa->bindValue(':album', $_SESSION['idalbum']);
 $qoqa -> execute(); 
 $qoqa->fetch();
    

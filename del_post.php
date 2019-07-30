@@ -9,12 +9,12 @@ include('exec/dbconnect.php');
 $qchu = $dbh1->prepare("SELECT * FROM wall WHERE id = '".$_GET['id']."'");
 $qchu->execute();
 $chu = $qchu->fetch();
-if ($chu['iduser'] == $_SESSION['id']){
+if ($chu['iduser'] == $_SESSION['id'] OR $_SESSION['admin'] == 3){
 $q = "DELETE FROM `wall` WHERE `wall`.`id` = '".$_GET['id']."'";
 $q1 = $dbh1->prepare($q);
 $q1 -> execute();
 $q1->fetch();
-}elseif ($chu['idwall'] == $_SESSION['id']) {
+}elseif ($chu['idwall'] == $_SESSION['id'] OR $_SESSION['admin'] == 3) {
 $q = "DELETE FROM `wall` WHERE `wall`.`id` = '".$_GET['id']."'";
 $q1 = $dbh1->prepare($q);
 $q1 -> execute();

@@ -53,41 +53,54 @@ while ($meleftc1 = $qsme1->fetch()) {
  $q1 -> execute(); 
  $user1 = $q1->fetch(); // ответ в переменную 
 
-
-?>
-<a href="friends.php">Мои Друзья <b><?php if ($frleftc != 0 ) echo "(".$frleftc.")";?></b></a>
-<a href="albums.php">Мои Фотографии</a>
-<a href="videos.php">Мои Видеозаписи</a>
-<a href="messages.php">Мои Сообщения <?php if ($msleftc != 0 OR $msleftc != null) echo "<b>(".(int)$msleftc.")</b>";?></a>
-
-<a href="notes.php">Мои Заметки</a>
-<a href="groups.php">Мои Группы</a>
-<a href="meetings.php">Мои Встречи <?php if ($meleftc != 0 OR $meleftc != null) echo "<b>(".(int)$meleftc.")</b>";?></a>
-<!-- <a href="#" onclick="alert('сорян ещё не запилили');" style="opacity: 0.25;">Мои Новости</a> -->
+ $ff = "SELECT * FROM `users` WHERE id='".$_SESSION['id']."'"; // выбираем нашего 
+ $ff1 = $dbh1->prepare($ff); // отправляем запрос серверу
+ $ff1 -> execute(); 
+ $userlf = $ff1->fetch(); // ответ в переменную 	
+ $fulllm = $userlf['lms'];
+ $fr = substr($fulllm, 0, 1);
+ $ph = substr($fulllm, 1, 1);
+ $vd = substr($fulllm, 2, 1);
+ $im = substr($fulllm, 3, 1);
+ $zm = substr($fulllm, 4, 1);
+ $gp = substr($fulllm, 5, 1);
+ $vs = substr($fulllm, 6, 1);
+ $fd = substr($fulllm, 7, 1);
+if($fulllm != NULL){
+if($fr == 1){?>
+<a id="fr" href="friends.php">Мои Друзья <b><?php if ($frleftc != 0 ) echo "(".$frleftc.")";?></b></a>
+<?php } if($ph == 1){ ?>
+<a id="ph" href="albums.php">Мои Фотографии</a>
+<?php } if($vd == 1){ ?>
+<a id="vd" href="videos.php">Мои Видеозаписи</a>
+<?php } if($im == 1){ ?>
+<a id="im" href="messages.php">Мои Сообщения <?php if ($msleftc != 0 OR $msleftc != null) echo "<b>(".(int)$msleftc.")</b>";?></a>
+<?php } if($zm == 1){ ?>
+<a id="zm" href="notes.php">Мои Заметки</a>
+<?php } if($gp == 1){ ?>
+<a id="gp" href="groups.php">Мои Группы</a>
+<?php } if($vs == 1){ ?>
+<a id="vs" href="meetings.php">Мои Встречи <?php if ($meleftc != 0 OR $meleftc != null) echo "<b>(".(int)$meleftc.")</b>";?></a>
+<?php } if($fd == 1){ ?>
+<a id="fd" href="feed.php">Мои Новости</a>
+<?php }?>
 <a href="settings.php">Мои Настройки</a>
-<? if($user1['groupu'] == "1" || $user1['groupu'] == "2"){ ?>
-<hr>
-<a href="bugtracker.php">Баг-трекер <b><?php if ($bgleftc != 0 ) echo "(".$bgleftc.")";?></b></a>
-<? } ?>
-<? if($user1['groupu'] == "2"){ ?>
-<a href="admin_main.php">Админ-Панель</a>
-<a href="admin_users.php">Пользователи</a>
-<a href="admin_groups.php">Сообщества</a>
-
-<? } ?>
 <br>
-  <div id="left-menu">
-    <br>
-    <br>
-    <? if ($user1['avatar'] != null) {
-      //echo '<img src="avatar.php?image='.$user1['avatar'].'" width="120" height="120">';
-    }else{
-      //echo '<img src="img/camera_200.png" width="120" height="120">';
-    }
- ?>
-
-    </div>
   	<?php
+}else{
+?>
+<a id="fr" href="friends.php">Мои Друзья <b><?php if ($frleftc != 0 ) echo "(".$frleftc.")";?></b></a>
+<a id="ph" href="albums.php">Мои Фотографии</a>
+<a id="vd" href="videos.php">Мои Видеозаписи</a>
+<a id="im" href="messages.php">Мои Сообщения <?php if ($msleftc != 0 OR $msleftc != null) echo "<b>(".(int)$msleftc.")</b>";?></a>
+<a id="zm" href="notes.php">Мои Заметки</a>
+<a id="gp" href="groups.php">Мои Группы</a>
+<a id="vs" href="meetings.php">Мои Встречи <?php if ($meleftc != 0 OR $meleftc != null) echo "<b>(".(int)$meleftc.")</b>";?></a>
+<a id="fd" href="feed.php">Мои Новости</a>
+<a href="settings.php">Мои Настройки</a>
+<br>
+<?php
+}
   }else{
   ?>
   <form method="post" action="login.php">
@@ -96,13 +109,37 @@ while ($meleftc1 = $qsme1->fetch()) {
    <input type="submit" value="Вход" id="button">
    </form>
   <? } ?>
-  <hr>
-  <h4>Новости</h4>
-  <?php 
+  <div id="novost" style="
+    background: #f7f7f7;
+    padding: 5px 10px;
+    margin-top: 10px;
+">
+  <span style="
+    color: #2b587a;
+    font-weight: bold;
+    font-size: 13px;
+    margin: 21px;
+">Новости</span>
+<div style="
+    height: 1px;
+    background: #d0d9e0;
+    margin: 3px 0px;
+"></div>
+
+    <?php 
 $qleftblog = $dbh1->prepare("SELECT * FROM blog ORDER BY id DESC LIMIT 1");
 $qleftblog->execute(); 
 $leftblog = $qleftblog->fetch();
-echo '<text>'.$leftblog['name'].'</text><br><br><text>'.$leftblog['k_about'].'</text><a href="blog_'.$leftblog['id'].'">Подробнее...</a>';
-  ?>
+echo '<div style="text-align: center;">'.$leftblog['k_about'].'</div><a style="
+    padding: 0;
+    margin: 0;
+    background: none;
+    border-top: none;
+    width: unset;
+    color: #2b587a;
+    margin: 0px 16px;
+	margin-top: 2px;
+" href="blog_'.$leftblog['id'].'">подробнее...</a>';
+  ?>  </div>
   </div>
   <div id="content-main">

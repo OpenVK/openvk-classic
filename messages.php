@@ -19,7 +19,7 @@ margin-bottom:0px;
 .im{
 text-decoration:none;
 color:black;
-margin:-10px;
+margin: 0px;
 }
 
 .im:hover{
@@ -59,7 +59,7 @@ width:639px;
 </ul>
 <div id="Content" style="width:619px;">
 	<!-- Первая -->
-	<div id="Recived">
+	<div style="display: block; margin-top: 22px;" id="Recived">
 		<p>
 <?php 
 $qim1 = $dbh1->prepare("SELECT * FROM `messages` WHERE id2 = '".$_SESSION['id']."' ORDER BY id DESC");
@@ -119,10 +119,10 @@ if ($user['avatar'] == "") {
     </a>';*/
 ?>
 <a href="messages.php?id=<?php echo $im1['id']; ?>" class="im">
-<div class="im-mess<?php echo $redit; ?>" style="padding:15px;margin:0 -10px;">
+<div class="im-mess<?php echo $redit; ?>" style="padding: 5px 15px;margin:0 -10px;">
 <table border="0" style="font-size:11px;">
 <tr>
-<td style="width:54px;"><img src="<?php echo $avatar; ?>" width="50px" height="auto"></td>
+<td style="width: 44px;"><img src="<?php echo $avatar; ?>" width="40px" height="auto"></td>
 <div style="float:right;"><?php
 $daydate = date("z",$im1['date']);
 $daynow = date("z",time());
@@ -131,11 +131,10 @@ echo date("H:i",$im1['date']);
 }else{
 echo zmdate($im1['date']);
 }
-$im1['text'] = htmlentities($im1['text'],ENT_QUOTES);
-$im1['text'] = str_replace(array("\r\n", "\r", "\n", "<", ">", "<script>", "&"), '<br>', $im1['text']);
+$im1['text'] = preg_replace("~(http|https|ftp|ftps)://(.*?)(\s|\n|[,.?!](\s|\n)|$)~", '<a href="$1://$2">$1://$2</a>$3', $im1['text']);
 ?></div>
-<td style="padding-left:10px;"><b style="font-size:14px;"><?php echo $user['name'].' '.$user['surname']; ?></b><br><div style="margin-top:8px;"></div>
-<?php echo $im1['text']; ?>
+<td style="padding-left:10px;"><b style="color: #2b587a;font-size: 13px;"><?php echo $user['name'].' '.$user['surname']; ?></b><br><div style="margin-top:8px;"></div>
+<?php echo str_replace('<br>', ' ', $im1['text']); ?>
 </td>
 </tr>
 </table>
@@ -164,7 +163,7 @@ echo '<center><div style="margin:80px 120px;">
 	</div>
  
 	
-	<div id="Sended" style="display: none;">
+	<div id="Sended" style="display: none;margin-top: 22px;">
 		<p><?php 
 $qim2 = $dbh1->prepare("SELECT * FROM `messages` WHERE id1 = '".$_SESSION['id']."' ORDER BY id DESC");
 $qim2->execute();
@@ -221,11 +220,12 @@ if ($user['avatar'] == null) {
     </table>';*/
 ?>
 <div class="im" style="margin:0 -10px;">
-<div class="im-mess<?php echo $redit; ?>" style="padding:15px;">
+<div class="im-mess<?php echo $redit; ?>" style="padding: 5px 15px;">
 <table border="0" style="font-size:11px;">
 <tr>
-<td style="width:54px;"><img src="<?php echo $avatar; ?>" width="50px" height="auto"></td>
-<div style="float:right;"><?php
+<td style="width:44px;"><img src="<?php echo $avatar; ?>" width="40px" height="auto"></td>
+
+<td style="padding-left:10px;width: 100%;"><b style="color: #2b587a;font-size: 13px;"><?php echo $user['name'].' '.$user['surname']; ?></b><div style="float:right;"><?php
 $daydate = date("z",$im2['date']);
 $daynow = date("z",time());
 if($daynow == $daydate){
@@ -233,11 +233,10 @@ echo date("H:i",$im2['date']);
 }else{
 echo zmdate($im2['date']);
 }
-$im2['text'] = htmlentities($im2['text'],ENT_QUOTES);
-$im2['text'] = str_replace(array("\r\n", "\r", "\n", "<", ">", "<script>", "&"), '<br>', $im2['text']);
-?></div>
-<td style="padding-left:10px;"><b style="font-size:14px;"><?php echo $user['name'].' '.$user['surname']; ?></b><br><div style="margin-top:8px;"></div>
-<text style="padding-right:5px;color:#8b939b;">Вы:</text><?php echo $im2['text']; ?>
+$im2['text'] = preg_replace("~(http|https|ftp|ftps)://(.*?)(\s|\n|[,.?!](\s|\n)|$)~", '<a href="$1://$2">$1://$2</a>$3', $im2['text']);
+?></div><br><div style="margin-top:8px;"></div>
+<text style="padding-right:5px;color:#8b939b;">Вы:</text><?php echo str_replace('<br>', ' ', $im2['text']); ?>
+<a href="del_mess.php?id=<?php echo $im2['id'];?>" style="float:right;">удалить</a>
 </td>
 </tr>
 </table>
@@ -326,8 +325,8 @@ $quser->execute();
 $user = $quser->fetch();
 $im['topic'] = htmlentities($im['topic'],ENT_QUOTES);
 $im['topic'] = htmlentities($im['topic'],ENT_QUOTES);
-$im['topic'] = str_replace(array("\r\n", "\r", "\n", "<", ">"), '<br>', $im['topic']);
-
+$im['topic'] = str_replace(array("\r\n", "\r", "\n"), '<br>', $im['topic']);
+$im['text'] = preg_replace("~(http|https|ftp|ftps)://(.*?)(\s|\n|[,.?!](\s|\n)|$)~", '<a href="$1://$2">$1://$2</a>$3', $im['text']);
 ?>
 <div id="content-infoname"><b><a href="messages.php">Личные сообщения</a> » Просмотр сообщения</b></div>
 <div>
@@ -373,7 +372,7 @@ $im['topic'] = str_replace(array("\r\n", "\r", "\n", "<", ">"), '<br>', $im['top
               </td>
             </tr>
             <tr>
-              <td style="font-size: 11px;">
+              <td style="font-size: 11px;vertical-align: top;">
                 <span>Сообщение:</span>
               </td>
               <td style="font-size: 11px;">

@@ -70,11 +70,24 @@ $id = $_GET['id'];
    echo '<div class="simpleBlock">
   <div class="simpleHeader">Ошибка!</div>
   <div class="simpleBar clearFix">
-   Отказано в доступе.<br>
+   Заметка не найдена!<hr> Попробуйте:<br>
+   1. Ввести корректный ID записи.<br>
+   2. Спросить у автора (если вы его конечно найдёте) "Где заметка?".<br>
+    
   
   </div>
  </div>';
  }
+ if($id == "8"){
+   echo '<div class="simpleBlock">
+  <div class="simpleHeader">Ошибка!</div>
+  <div class="simpleBar clearFix">
+   Ошибка в обработчике ошибок. Офигенно, не правда ли?<hr> Попробуйте:<br>
+   1. Вернуться на ту страницу, с которой пришли сюда.
+  
+  </div>
+ </div>';
+ } 
    if($id == null){
    echo '<div class="simpleBlock">
   <div class="simpleHeader">Ошибка!</div>
@@ -91,7 +104,7 @@ $id = $_GET['id'];
   <div class="simpleBar clearFix">
    Ошибка в обработчике ошибок. Офигенно, не правда ли?<hr> Попробуйте:<br>
    1. Вернуться на ту страницу, с которой пришли сюда.
-  
+   2. Подрочить на пони
   </div>
  </div>';
  } 

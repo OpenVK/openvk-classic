@@ -10,9 +10,9 @@ exit();
 //$_POST['text'] = str_replace('<', '&#60;', $_POST['text']);
 //$_POST['text'] = str_replace('>', '&#62;', $_POST['text']);
 $_POST['text'] = htmlentities($_POST['text'],ENT_QUOTES);
-$_POST['text'] = str_replace(array("\r\n", "\r", "\n", "&", "<", ">","<?", "?>"), '<br>', $_POST['text']);
+$_POST['text'] = str_replace(array("\r\n", "\r", "\n"), '<br>', $_POST['text']);
 $_POST['topic'] = htmlentities($_POST['topic'],ENT_QUOTES);
-$_POST['topic'] = str_replace(array("\r\n", "\r", "\n", "<", ">", "<script>", "&", "<?", "?>"), '<br>', $_POST['topic']);
+$_POST['topic'] = str_replace(array("\r\n", "\r", "\n"), '<br>', $_POST['topic']);
 include('exec/dbconnect.php');
 if(isset($_SESSION['id'])){
 $id = $_SESSION['id'];

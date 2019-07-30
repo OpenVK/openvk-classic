@@ -11,10 +11,10 @@ $height = 50;				//Высота изображения
 $font_size = 16;   			//Размер шрифта
 $let_amount = 5;			//Количество символов, которые нужно набрать
 $fon_let_amount = 30;		//Количество символов на фоне
-$font = "files/cour.ttf";	//Путь к шрифту
+$font = "content/fc.ttf";	//Путь к шрифту
  
 //набор символов
-$letters = array('к', 'и', 'л', 'а', 'м', 'о', 'л', 'о', 'д', 'о', 'й', '1', '3', '5', '7', '9');		
+$letters = array('8', '1', '3', '5', '7', '9', '6', '4', '2');		
 
 //Цвета для фона
 $background_color = array(mt_rand(200, 255), mt_rand(200, 255), mt_rand(200, 255));
@@ -33,11 +33,15 @@ for($i=0; $i < $let_amount; $i++){
 	$color = imagecolorallocatealpha($src, $foreground_color[0], $foreground_color[1], $foreground_color[2], rand(20,40)); //Цвет шрифта
 	$letter = $letters[rand(0,sizeof($letters)-1)];
 	$size = rand($font_size*2-2,$font_size*2+2);
-	$x = ($i+1)*$font_size + rand(2,5); //даем каждому символу случайное смещение
+	$x = ($i+1)*$font_size + rand(7,9); //даем каждому символу случайное смещение
 	$y = (($height*2)/3) + rand(0,5);							
 	$cod[] = $letter; //запоминаем код
 	imagettftext($src,$size,rand(0,15),$x,$y,$color,$font,$letter);
+	imageline($src, rand(0, 20), rand(1, 50), rand(150, 180), rand(1, 50), $color);
+	imageline($src, rand(0, 20), rand(1, 50), rand(100, 200), rand(1, 50), $color);
 }
+
+
 
 $foreground = imagecolorallocate($src, $foreground_color[0], $foreground_color[1], $foreground_color[2]);
 

@@ -7,7 +7,8 @@ include 'exec/datefn.php';
 include 'exec/header.php';
 include 'exec/leftmenu.php';
 if (!empty($_GET['search'])) {
-$qs = $dbh1->prepare("SELECT * FROM users WHERE name LIKE '%".$_GET['search']."%' OR surname LIKE '%".$_GET['search']."%' OR aboutuser2 LIKE '%".$_GET['search']."%' ORDER BY id");
+$qs = $dbh1->prepare("SELECT * FROM users WHERE name LIKE :search OR surname LIKE :search OR aboutuser2 LIKE :search ORDER BY id");
+$qs->bindValue(":search", '%'.$_GET['search'].'%');
 }elseif($_GET['sort_by'] == "date1"){
 $qs = $dbh1->prepare('SELECT * FROM users');
 }elseif($_GET['sort_by'] == "date2"){
@@ -103,7 +104,8 @@ include 'exec/datefn.php';
 include 'exec/header.php';
 include 'exec/leftmenu.php';
 if (!empty($_GET['search'])) {
-$qs = $dbh1->prepare("SELECT * FROM club WHERE name LIKE '%".$_GET['search']."%' OR about LIKE '%".$_GET['search']."%' ORDER BY id");
+$qs = $dbh1->prepare("SELECT * FROM club WHERE name LIKE :search OR about LIKE :search ORDER BY id");
+$qs->bindValue(":search", '%'.$_GET['search'].'%');
 }elseif($_GET['sort_by'] == "date1"){
 $qs = $dbh1->prepare("SELECT * FROM club");
 }elseif($_GET['sort_by'] == "date2"){

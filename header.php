@@ -14,12 +14,18 @@ $qonline->fetch();
   <meta charset="utf-8">
   
   <link rel="stylesheet" type="text/css" href="style.css">
+  <style>.infonew {
+    display: none;
+}</style>
   <style>#head-wrapper{background:url(img/header-beta.png);}</style>
     <?php
   $qs = "SELECT * FROM users WHERE id = '".$_SESSION['id']."'"; // выбираем нашего 
 $qstyle = $dbh1->prepare($qs); // отправляем запрос серверу
 $qstyle -> execute(); 
 $qst = $qstyle->fetch();
+if ($qst['password'] != md5($_SESSION['pass'], $md5_hash)) {
+	# code...
+}
 if ($qst['cssstyle'] == '2') {
    echo '<link rel="stylesheet" type="text/css" href="vkstyle.css">';
  } ?>
@@ -29,7 +35,7 @@ if ($qst['cssstyle'] == '2') {
     <link type="text/css" href="js/jquery/window/css/jquery.window.css" rel="stylesheet" />
  </head>
  <body>
- <noscript><div class="infonew">Мы заметили у Вас древнейший браузер.<br><br>Некоторые функции сайта не будут работать (из-за использования JavaScript).<br><br>Рекомендуем Вам обновить свой браузер на <a href="http://google.com/chrome">Google Chrome</a> или на <a href="http://browser.yandex.ru">Яндекс.Браузер</a>, но в то же время поддерживаются старые версии Opera, Firefox, Chrome</div></noscript>
+ <noscript><div class="infonew">Мы заметили у Вас древнейший браузер.<br><br>Некоторые функции сайта не будут работать (из-за использования JavaScript).<br><br>Рекомендуем Вам обновить свой браузер на <a href="http://mozilla.org/firefox">Mozilla Firefox</a>, но в то же время поддерживаются старые версии Opera, Firefox, Chrome</div></noscript>
  <?
  
 $qh2 = "SELECT * FROM users WHERE id='".$id."'";
@@ -66,8 +72,7 @@ exit();
   <div id="head-button" style="width: 8em"><form action="search.php" method="get">
   	<input type="text" name="search" style="border: #6688A3 solid 1px;font-size: 11px;padding: 2px 2px 2px 17px;background: url(img/searchicon.png) no-repeat 3px 4px; background-color: #fff;" placeholder="Поиск" size="13">
   </form></div>
-  <div id="head-button" style="width: 3.5em"><a href="logout.php">выйти</a></div><div id="head-button" style="width: 4.0em"><a href="help.php">помощь</a></div><div id="head-button" style="width: 5.5em"><a href="invite.php">пригласить</a></div>
-     <div id="head-button" style="width: 3.5em"><a href="search.php">люди</a></div><div id="head-button" style="width: 4em"><a href="search.php?type=groups&sort_by=random">группы</a></div><div id="head-button" style="width: 3.3em"><a href="search.php?act=search">поиск</a></div><?php }elseif ($_SESSION['loginin'] != '1') {
+  <div id="head-button" style="width: 3.5em"><a href="logout.php">выйти</a></div><div id="head-button" style="width: 4.0em"><a href="help.php">помощь</a></div><div id="head-button" style="width: 7.3em"><a href="donate.php">пожертвования</a></div><div id="head-button" style="width: 3.5em"><a href="search.php">люди</a></div><div id="head-button" style="width: 4em"><a href="search.php?type=groups&sort_by=random">группы</a></div><div id="head-button" style="width: 3.3em"><a href="search.php?act=search">поиск</a></div><?php }elseif ($_SESSION['loginin'] != '1') {
       echo '
        <div id="head-button" style="width: 3.5em"><a href="help.php">помощь</a></div><div id="head-button" style="width: 6em"><a href="register.php">регистрация</a></div><div id="head-button" style="width: 3.5em"><a href="index.php">войти</a></div>
       ';

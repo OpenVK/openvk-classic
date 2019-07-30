@@ -7,7 +7,7 @@ if($_GET['id']){
 	$qcff = $dbh1->prepare("SELECT * FROM club WHERE `id` = '".$_GET['club']."'");
 $qcff->execute();
 $cff = $qcff->fetch();
-if ($cff['authorid'] == $_SESSION['id']) {
+if ($cff['authorid'] == $_SESSION['id'] && $cff['closed'] == '1') {
 	
 $qcf = $dbh1->prepare("SELECT * FROM clubsubrequest WHERE `id1` = '".$_GET['id']."' AND `id2` = '".$_GET['club']."'");
 $qcf->execute();
