@@ -54,7 +54,7 @@ $qrr1->fetch();
 $query = $dbh1->prepare('INSERT INTO users (`id`, `name`, `surname`, `regdate`, `login`, `password`, `regip`) VALUES (NULL, :name, :surname, :regdate, :login, :password, :ip)');
 	$query->bindValue(':name', $_POST['name']);
 	$query->bindValue(':surname', $_POST['surname']);
-	$query->bindValue(':regdate', date('d-m-Y H:i:s'));
+	$query->bindValue(':regdate', time());
     $query->bindValue(':login', $_POST['login']);
     $query->bindValue(':password', md5($_POST['password']));
 	$query->bindValue(':ip', $_SERVER['REMOTE_ADDR']);
