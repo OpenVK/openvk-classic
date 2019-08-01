@@ -3,7 +3,7 @@ session_start();
 include('exec/dbconnect.php');
 include('exec/check_user.php');
 include 'reseample.php';
-$path = '/content/avatars/';
+$path = 'content/avatars/';
 $rand = rand("1000000000", "9999999999");
 if (file_exists($path.$rand.".jpg")) {
     $rand = rand("1000000000", "9999999999");
