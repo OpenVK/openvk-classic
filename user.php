@@ -42,13 +42,11 @@ include('exec/leftmenu.php');
 ">
 </script>
 <div id="content-infoname"><b><?php echo $user['name'].' '.$user['surname']; ?></b><?php if ($user['verify'] == '1') {
-    echo '<img src="img/verify_silver.png" width="12" height="12" style="margin-left:5px;margin-right:5px;margin-bottom:-2px;" onmouseenter="openVerify();" onmouseleave="openVerify();"><div id="verify" style="display:none;margin:5px 0;">Верифицированная страница</div>';
+    echo '<img src="img/verify_silver.svg" width="12" height="12" style="margin-left:5px;margin-right:5px;margin-bottom:-2px;" onmouseenter="openVerify();" onmouseleave="openVerify();"><div id="verify" style="display:none;margin:5px 0;">Верифицированная страница</div>';
 } ?><?php if ($user['verify'] == '5') {
     echo '<img src="img/verify_green.svg" width="12" height="12" style="margin-left:4px;margin-right:4px;margin-bottom:-2px;" onmouseenter="openVerify();" onmouseleave="openVerify();"><div id="verify" style="display:none;margin:5px 0;">Верифицированная страница администратора OpenVK</div>';
 } ?><?php if ($user['verify'] == '3') {
-    echo '<img src="img/verify_blue.png" width="12" height="12" style="margin-left:4px;margin-right:4px;margin-bottom:-2px;" onmouseenter="openVerify();" onmouseleave="openVerify();"><div id="verify" style="display:none;margin:5px 0;">Верифицированная страница тестера OpenVK</div>';
-} ?><?php if ($user['verify'] == '4') {
-    echo '<img src="img/verify_blue.png" width="12" height="12" style="margin-left:4px;margin-right:4px;margin-bottom:-2px;" onmouseenter="openVerify();" onmouseleave="openVerify();"><div id="verify" style="display:none;margin:5px 0;">Верифицированная страница тестера OpenVK</div>';
+    echo '<img src="img/verify_blue.svg" width="12" height="12" style="margin-left:4px;margin-right:4px;margin-bottom:-2px;" onmouseenter="openVerify();" onmouseleave="openVerify();"><div id="verify" style="display:none;margin:5px 0;">Верифицированная страница тестера OpenVK</div>';
 } ?>
     <?php if ($_SESSION['id'] == $id) {?><span><b>(это Вы)</b></span><?php }
     if ($user['ban'] != '1') {

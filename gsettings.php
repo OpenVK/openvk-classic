@@ -1017,7 +1017,7 @@ $q1this -> execute();
                     $av = $user['avatar'];
                 }
                 if ($user['verify'] == "1") {
-                    $ver = ' <img src="img/verify.png" width="12" height="12" style="margin-left:0;margin-right:0;margin_bottom:-2;">';
+                    $ver = ' <img src="img/verify_silver.svg" width="12" height="12" style="margin-left:0;margin-right:0;margin_bottom:-2;">';
                 } elseif ($user['verify'] == "5") {
                     $ver = ' <img src="img/verify_green.svg" width="12" height="12" style="margin-left:0;margin-right:0;margin_bottom:-2;">';
                 } elseif ($user['verify'] == "3") {
