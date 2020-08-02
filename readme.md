@@ -1,6 +1,6 @@
-**Warning:** this CMS supports only Russian language. OpenVK 2.0 will support others languages.
+**ATTENTION**: this code will no longer be updated. Use OpenVK 2 instead - https://github.com/openvk/openvk
 
-**OpenVK** - простенькая CMS, имитирующая старый ВК. Код не является стабильным и даже не особо рабочим. Лицензировано под GPLv3. Рабочий образец доступен по адресу https://openvk.veselcraft.ru/
+**OpenVK** - простенькая CMS, имитирующая старый ВК. Код не является стабильным и даже не особо рабочим. Лицензировано под GPLv3.
 
 ## Установка
 
@@ -16,5 +16,3 @@
 -   https://t.me/openvkch - канал в Telegram.
     
 -   https://t.me/openvkchat - чат в Telegram.
-    
--   https://openvk.veselcraft.ru - рабочий образец.
